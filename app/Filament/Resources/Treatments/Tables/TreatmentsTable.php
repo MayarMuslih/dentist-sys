@@ -15,37 +15,51 @@ class TreatmentsTable
         return $table
             ->columns([
                 TextColumn::make('patient.name')
-                    ->searchable(),
+                    ->label('اسم المريض')
+                    ->searchable()
+                    ->sortable(),
+
+
                 TextColumn::make('service.name')
-                    ->searchable(),
+                    ->label('الخدمة المقدمة')
+                    ->searchable()
+                    ->sortable(),
+
+
                 TextColumn::make('tooth_number')
-                    ->searchable(),
+                    ->label('رقم السن')
+                    ->searchable()
+                    ->placeholder('غير محدد'),
+
+
                 TextColumn::make('cost')
-                    ->money()
-                    ->sortable(),
-                TextColumn::make('paid_amount')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('remaining_amount')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('payment_status')
-                    ->searchable(),
+                    ->label('التكلفة')
+                    ->money('SYP')
+                    ->sortable()
+                    ->color('success'),
+
+                // تاريخ الجلسة
                 TextColumn::make('treatment_date')
-                    ->dateTime()
+                    ->label('تاريخ الجلسة')
+                    ->date('Y-m-d')
                     ->sortable(),
+
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('تاريخ الإضافة')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('آخر تحديث')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
+
             ->recordActions([
                 EditAction::make(),
             ])

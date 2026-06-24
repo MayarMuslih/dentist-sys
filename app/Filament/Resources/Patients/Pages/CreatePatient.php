@@ -11,10 +11,13 @@ class CreatePatient extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // ربط المريض بالدكتور المسجل دخوله حالياً تلقائياً
         $data['user_id'] = auth()->id();
 
         return $data;
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

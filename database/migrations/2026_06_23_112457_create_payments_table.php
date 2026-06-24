@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('treatment_id')->nullable()->constrained()->nullOnDelete();
-            $table->decimal('amount', 10, 2);
+            $table->foreignId('patient_id')->constrained()->cascadeOnDelete(); // ربطنا الدفعة بالمريض فقط
+
+            $table->decimal('amount', 10, 2); // المبلغ المدفوع
+            $table->string('payment_method')->default('cash'); // طريقة الدفع
+            $table->date('payment_date'); // تاريخ الدفعة
+            $table->text('notes')->nullable(); // ملاحظات اختيارية
+
             $table->timestamps();
         });
     }

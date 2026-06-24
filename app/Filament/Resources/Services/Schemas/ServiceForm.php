@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Services\Schemas;
 
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -12,16 +11,18 @@ class ServiceForm
     {
         return $schema
             ->components([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+
                 TextInput::make('default_price')
                     ->required()
                     ->numeric()
-                    ->default(0.0)
-                    ->prefix('$'),
+                    ->minValue(0)
+                    ->default(0)
+                    ->prefix('ل.س')
+                    ->label('السعر الافتراضي'),
             ]);
     }
 }

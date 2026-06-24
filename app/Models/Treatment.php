@@ -13,9 +13,6 @@ class Treatment extends Model
         'tooth_number',
         'medical_notes',
         'cost',
-        'paid_amount',
-        'remaining_amount',
-        'payment_status',
         'treatment_date',
     ];
 

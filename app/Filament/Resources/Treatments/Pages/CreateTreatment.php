@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTreatment extends CreateRecord
 {
     protected static string $resource = TreatmentResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

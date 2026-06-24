@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
             $table->foreignId('service_id')->constrained()->cascadeOnDelete();
-            $table->string('tooth_number')->nullable();
-            $table->text('medical_notes')->nullable();
+
+            $table->string('tooth_number')->nullable(); // رقم السن (اختياري)
+            $table->text('medical_notes')->nullable(); // ملاحظات الجلسة (اختياري)
+
+
             $table->decimal('cost', 10, 2)->default(0);
-            $table->decimal('paid_amount', 10, 2)->default(0);
-            $table->decimal('remaining_amount', 10, 2)->default(0);
-            $table->string('payment_status')->default('unpaid');
-            $table->dateTime('treatment_date');
+
+            $table->date('treatment_date'); // تاريخ الجلسة
+
             $table->timestamps();
         });
     }

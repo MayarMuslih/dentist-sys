@@ -14,25 +14,39 @@ class ServicesTable
     {
         return $table
             ->columns([
+
                 TextColumn::make('user.name')
-                    ->searchable(),
+                    ->label('الطبيب المسؤول')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('default_price')
-                    ->money()
+                    ->label('اسم الخدمة')
+                    ->searchable()
                     ->sortable(),
+
+                TextColumn::make('default_price')
+                    ->label('السعر الافتراضي')
+                    ->money('SYP')
+                    ->sortable()
+                    ->color('warning'),
+
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('تاريخ الإضافة')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('آخر تحديث')
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
+
             ->recordActions([
                 EditAction::make(),
             ])
