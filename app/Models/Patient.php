@@ -11,7 +11,9 @@ class Patient extends Model
         'user_id',
         'name',
         'phone',
-        'medical_history',
+        'age',
+        'gender',
+        'medical_history'
     ];
 
     public function user(): BelongsTo
