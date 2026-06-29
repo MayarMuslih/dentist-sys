@@ -11,14 +11,29 @@ use App\Models\Payment;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class PaymentResource extends Resource
 {
     protected static ?string $model = Payment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-banknotes';
+
+    public static function getModelLabel(): string
+    {
+        return __('Payment');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Payments');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Clinic Management');
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -44,5 +59,15 @@ class PaymentResource extends Resource
             'create' => CreatePayment::route('/create'),
             'edit' => EditPayment::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->clinic_id !== null;
+    }
+
+    public static function canManage(Model $record): bool
+    {
+        return auth()->user()->clinic_id !== null;
     }
 }

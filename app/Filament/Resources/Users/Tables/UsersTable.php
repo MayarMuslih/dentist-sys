@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Services\Tables;
+namespace App\Filament\Resources\Users\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -8,45 +8,34 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class ServicesTable
+class UsersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-
-                TextColumn::make('user.name')
-                    ->label(__('Responsible Doctor'))
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
+                TextColumn::make('clinic.name')
+                    ->searchable(),
                 TextColumn::make('name')
-                    ->label(__('Service Name'))
-                    ->searchable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email address')
+                    ->searchable(),
+                TextColumn::make('email_verified_at')
+                    ->dateTime()
                     ->sortable(),
-
-                TextColumn::make('default_price')
-                    ->label(__('Default Price'))
-                    ->money('SYP')
-                    ->sortable()
-                    ->color('warning'),
-
                 TextColumn::make('created_at')
-                    ->label(__('Created At'))
-                    ->dateTime('Y-m-d H:i')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
                 TextColumn::make('updated_at')
-                    ->label(__('Updated At'))
-                    ->dateTime('Y-m-d H:i')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
-
             ->recordActions([
                 EditAction::make(),
             ])

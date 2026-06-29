@@ -15,18 +15,54 @@ class PaymentsTable
         return $table
             ->columns([
                 TextColumn::make('patient.name')
-                    ->searchable(),
-                TextColumn::make('treatment.id')
-                    ->searchable(),
-                TextColumn::make('amount')
-                    ->numeric()
+                    ->label(__('Patient Name'))
+                    ->searchable()
                     ->sortable(),
+
+                TextColumn::make('amount')
+                    ->label(__('Paid Amount'))
+                    ->money('SYP') // تنسيق العملة
+                    ->sortable()
+                    ->color('success'), // لون أخضر للمصاري
+
+                // طريقة الدفع مع تصميم Badge ملون
+                TextColumn::make('payment_method')
+                    ->label(__('Payment Method'))
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'cash' => __('Cash'),
+                        // 'credit_card' => 'بطاقة بنكية',
+                        // 'transfer' => 'تحويل بنكي',
+                        default => $state,
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'cash' => 'success',
+                        // 'credit_card' => 'warning',
+                        // 'transfer' => 'info',
+                        default => 'primary',
+                    }),
+
+                TextColumn::make('payment_date')
+                    ->label(__('Payment Date'))
+                    ->date('Y-m-d')
+                    ->sortable(),
+
+                // الملاحظات (مخفية افتراضياً لحتى ما تاخد مساحة، بس بيقدر يظهرها)
+                TextColumn::make('notes')
+                    ->label(__('Notes'))
+                    ->limit(30)
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label(__('Created At'))
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label(__('Updated At'))
+                    ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

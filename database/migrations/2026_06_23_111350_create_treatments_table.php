@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
             $table->foreignId('service_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('clinic_id')->nullable()->constrained()->cascadeOnDelete();
 
             $table->string('tooth_number')->nullable(); // رقم السن (اختياري)
             $table->text('medical_notes')->nullable(); // ملاحظات الجلسة (اختياري)
-
 
             $table->decimal('cost', 10, 2)->default(0);
 

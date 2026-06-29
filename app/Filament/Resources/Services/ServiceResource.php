@@ -11,16 +11,31 @@ use App\Models\Service;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getModelLabel(): string
+    {
+        return __('Service');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Services');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Clinic Management');
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -46,5 +61,15 @@ class ServiceResource extends Resource
             'create' => CreateService::route('/create'),
             'edit' => EditService::route('/{record}/edit'),
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->clinic_id !== null;
+    }
+
+    public static function canManage(Model $record): bool
+    {
+        return auth()->user()->clinic_id !== null;
     }
 }

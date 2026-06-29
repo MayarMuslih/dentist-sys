@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Traits\BelongsToClinic;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Service extends Model
 {
+    use BelongsToClinic;
+
     protected $fillable = [
         'user_id',
         'name',

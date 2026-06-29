@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\Treatments\Schemas;
 
+use App\Models\Service;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use App\Models\Service;
 
 class TreatmentForm
 {
@@ -20,14 +20,14 @@ class TreatmentForm
                     ->relationship('patient', 'name') // يفترض أن المريض له حقل اسمه name
                     ->required()
                     ->searchable()
-                    ->label('اسم المريض'),
+                    ->label(__('Patient Name')),
 
                 // اختيار الخدمة (مع سحب السعر تلقائياً)
                 Select::make('service_id')
                     ->relationship('service', 'name')
                     ->required()
                     ->searchable()
-                    ->label('الخدمة المقدمة')
+                    ->label(__('Provided Service'))
                     ->live() // يراقب التغييرات على هذا الحقل لحظياً
                     ->afterStateUpdated(function ($state, callable $set) {
                         // إذا تم اختيار خدمة، اسحب سعرها وضعه في حقل التكلفة
@@ -42,26 +42,26 @@ class TreatmentForm
                 // رقم السن
                 TextInput::make('tooth_number')
                     ->maxLength(255)
-                    ->label('رقم السن (اختياري)'),
+                    ->label(__('Tooth Number (Optional)')),
 
                 // تاريخ الجلسة
                 DatePicker::make('treatment_date')
                     ->required()
                     ->default(now()) // يضع تاريخ اليوم افتراضياً
-                    ->label('تاريخ الجلسة'),
+                    ->label(__('Session Date')),
 
                 // تكلفة العلاج
                 TextInput::make('cost')
                     ->required()
                     ->numeric()
                     ->minValue(0)
-                    ->prefix('ل.س')
-                    ->label('التكلفة النهائية'),
+                    ->prefix(__('SYP'))
+                    ->label(__('Final Cost')),
 
                 // ملاحظات طبية
                 Textarea::make('medical_notes')
                     ->columnSpanFull() // يأخذ عرض الشاشة بالكامل لسهولة الكتابة
-                    ->label('ملاحظات طبية (اختياري)'),
+                    ->label(__('Medical Notes (Optional)')),
             ]);
     }
 }

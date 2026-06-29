@@ -15,43 +15,40 @@ class TreatmentsTable
         return $table
             ->columns([
                 TextColumn::make('patient.name')
-                    ->label('اسم المريض')
+                    ->label(__('Patient Name'))
                     ->searchable()
                     ->sortable(),
-
 
                 TextColumn::make('service.name')
-                    ->label('الخدمة المقدمة')
+                    ->label(__('Provided Service'))
                     ->searchable()
                     ->sortable(),
 
-
                 TextColumn::make('tooth_number')
-                    ->label('رقم السن')
+                    ->label(__('Tooth Number'))
                     ->searchable()
-                    ->placeholder('غير محدد'),
-
+                    ->placeholder(__('Not Specified')),
 
                 TextColumn::make('cost')
-                    ->label('التكلفة')
+                    ->label(__('Cost'))
                     ->money('SYP')
                     ->sortable()
                     ->color('success'),
 
                 // تاريخ الجلسة
                 TextColumn::make('treatment_date')
-                    ->label('تاريخ الجلسة')
+                    ->label(__('Session Date'))
                     ->date('Y-m-d')
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->label('تاريخ الإضافة')
+                    ->label(__('Created At'))
                     ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                    ->label('آخر تحديث')
+                    ->label(__('Updated At'))
                     ->dateTime('Y-m-d H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

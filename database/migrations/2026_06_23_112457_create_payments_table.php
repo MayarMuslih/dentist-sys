@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete(); // ربطنا الدفعة بالمريض فقط
+            $table->foreignId('clinic_id')->nullable()->constrained()->cascadeOnDelete();
 
             $table->decimal('amount', 10, 2); // المبلغ المدفوع
             $table->string('payment_method')->default('cash'); // طريقة الدفع

@@ -20,37 +20,37 @@ class PaymentForm
                     ->required()
                     ->searchable()
                     ->preload() // بيحمل أسماء المرضى مسبقاً لتسريع البحث
-                    ->label('اسم المريض'),
+                    ->label(__('Patient Name')),
 
                 // المبلغ المدفوع (حر بدون قيود أو تقريب)
                 TextInput::make('amount')
+                    ->label(__('Paid Amount'))
                     ->required()
                     ->numeric()
                     ->minValue(0)
-                    ->prefix('ل.س')
-                    ->label('المبلغ المدفوع'),
+                    ->prefix(__('SYP')), // رمز العملة
 
                 // طريقة الدفع
                 Select::make('payment_method')
+                    ->label(__('Payment Method'))
                     ->options([
-                        'cash' => 'كاش (نقدي)',
-                        'credit_card' => 'بطاقة بنكية',
-                        'transfer' => 'تحويل بنكي',
+                        'cash' => __('Cash'),
+                        // 'credit_card' => 'Credit Card',
+                        // 'transfer' => 'Bank Transfer',
                     ])
                     ->default('cash')
-                    ->required()
-                    ->label('طريقة الدفع'),
+                    ->required(),
 
                 // تاريخ الدفعة (افتراضياً اليوم)
                 DatePicker::make('payment_date')
                     ->required()
                     ->default(now())
-                    ->label('تاريخ الدفعة'),
+                    ->label(__('Payment Date')),
 
                 // ملاحظات
                 Textarea::make('notes')
                     ->columnSpanFull()
-                    ->label('ملاحظات (اختياري)'),
+                    ->label(__('Notes')),
             ]);
     }
 }

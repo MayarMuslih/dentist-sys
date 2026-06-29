@@ -14,15 +14,19 @@ return new class extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name')->unique();
+            $table->foreignId('clinic_id')->nullable()->constrained()->cascadeOnDelete();
+
+            $table->string('name');
+
             $table->string('phone');
             $table->integer('age');
             $table->string('gender');
             $table->text('medical_history')->nullable();
             $table->timestamps();
+
+            $table->unique(['clinic_id', 'name']);
         });
     }
-
     /**
      * Reverse the migrations.
      */
