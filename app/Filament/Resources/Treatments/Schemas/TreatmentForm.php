@@ -15,22 +15,19 @@ class TreatmentForm
     {
         return $schema
             ->components([
-                // اختيار المريض
                 Select::make('patient_id')
-                    ->relationship('patient', 'name') // يفترض أن المريض له حقل اسمه name
+                    ->relationship('patient', 'name')
                     ->required()
                     ->searchable()
                     ->label(__('Patient Name')),
 
-                // اختيار الخدمة (مع سحب السعر تلقائياً)
                 Select::make('service_id')
                     ->relationship('service', 'name')
                     ->required()
                     ->searchable()
                     ->label(__('Provided Service'))
-                    ->live() // يراقب التغييرات على هذا الحقل لحظياً
+                    ->live()
                     ->afterStateUpdated(function ($state, callable $set) {
-                        // إذا تم اختيار خدمة، اسحب سعرها وضعه في حقل التكلفة
                         if ($state) {
                             $service = Service::find($state);
                             if ($service) {

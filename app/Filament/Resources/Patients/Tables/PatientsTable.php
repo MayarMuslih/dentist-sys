@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Patients\Tables;
 
+
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +16,6 @@ class PatientsTable
     public static function configure(Table $table): Table
     {
         return $table
-            // تحميل العلاقات مسبقاً لتجنب N+1 Query Problem عند حساب الرصيد
             ->modifyQueryUsing(fn (Builder $query) => $query->with(['treatments', 'payments']))
             ->columns([
                 TextColumn::make('name')
@@ -39,14 +40,12 @@ class PatientsTable
                         default => $state,
                     }),
 
-                // عمود الرصيد السحري
                 TextColumn::make('balance')
                     ->label(__('Balance'))
                     ->money('SYP')
                     ->badge()
-                    // تلوين ذكي: أحمر إذا الرصيد أكبر من صفر (عليه ديون)، أخضر إذا صفر أو أقل (خالص)
                     ->color(fn (float $state): string => $state > 0 ? 'danger' : 'success')
-                    ->sortable(false), // عطلنا الفلترة هون لأنو حقل محسوب مو موجود بالداتا بيز
+                    ->sortable(false),
 
                 TextColumn::make('created_at')
                     ->label(__('Created At'))
@@ -58,6 +57,7 @@ class PatientsTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(), // صارت بالمركز الأول لتفتح الإضبارة فوراً
                 EditAction::make(),
             ])
             ->toolbarActions([

@@ -10,6 +10,12 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends BaseWidget
 {
+    // هي الدالة بتمنع الويدجت يظهر للمدير العام، وبيظهر بس للدكتور
+    public static function canView(): bool
+    {
+        return auth()->user()->clinic_id !== null;
+    }
+
     protected function getStats(): array
     {
         return [

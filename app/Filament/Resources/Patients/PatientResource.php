@@ -13,6 +13,9 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use App\Filament\Resources\Patients\Schemas\PatientInfolist;
+
+
 
 class PatientResource extends Resource
 {
@@ -47,10 +50,16 @@ class PatientResource extends Resource
         return PatientsTable::configure($table);
     }
 
+public static function infolist(Schema $schema): Schema
+    {
+        return PatientInfolist::configure($schema);
+    }
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TreatmentsRelationManager::class,
+            RelationManagers\PaymentsRelationManager::class,
         ];
     }
 
@@ -59,6 +68,7 @@ class PatientResource extends Resource
         return [
             'index' => ListPatients::route('/'),
             'create' => CreatePatient::route('/create'),
+            'view' => Pages\ViewPatient::route('/{record}'),
             'edit' => EditPatient::route('/{record}/edit'),
         ];
     }

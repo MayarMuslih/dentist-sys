@@ -29,6 +29,7 @@ class PatientForm
                     ->tel()
                     ->numeric()
                     ->length(10)
+                    ->maxLength(10)
                     ->required(),
 
                 TextInput::make('age')
