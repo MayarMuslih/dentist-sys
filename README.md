@@ -12,7 +12,7 @@ A modern and robust Dental Clinic Management System built to streamline clinic w
 
 ## Tech Stack
 
-* **Backend Framework:** Laravel (v11/v13)
+* **Backend Framework:** Laravel 
 * **Admin Panel & UI Engine:** Filament PHP (v5.x Architecture)
 * **Reactivity:** Livewire 3 & Alpine.js
 * **Database:** MySQL & Eloquent ORM
