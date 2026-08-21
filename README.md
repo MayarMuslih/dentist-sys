@@ -13,7 +13,7 @@ A modern and robust Dental Clinic Management System built to streamline clinic w
 ## Tech Stack
 
 * **Backend Framework:** Laravel 
-* **Admin Panel & UI Engine:** Filament PHP (v5.x Architecture)
+* **Admin Panel & UI Engine:** Filament PHP
 * **Reactivity:** Livewire 3 & Alpine.js
 * **Database:** MySQL & Eloquent ORM
 * **Styling:** Tailwind CSS
@@ -22,7 +22,7 @@ A modern and robust Dental Clinic Management System built to streamline clinic w
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/dentist-sys.git](https://github.com/your-username/dentist-sys.git)
+   git clone [https://github.com/MayarMuslih/dentist-sys.git](https://github.com/MayarMuslih/dentist-sys.git)
    cd dentist-sys
    ```
 
