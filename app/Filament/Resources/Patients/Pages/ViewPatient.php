@@ -12,10 +12,7 @@ class ViewPatient extends ViewRecord
     protected static string $resource = PatientResource::class;
 
     #[On('refresh-patient')]
-    public function refreshPatientSummary()
-    {
-        // وجودها كافي لتحديث الصفحة فوراً
-    }
+    public function refreshPatientSummary() {}
 
     protected function getHeaderActions(): array
     {

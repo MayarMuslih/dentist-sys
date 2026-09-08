@@ -5,7 +5,12 @@ namespace App\Filament\Resources\Patients;
 use App\Filament\Resources\Patients\Pages\CreatePatient;
 use App\Filament\Resources\Patients\Pages\EditPatient;
 use App\Filament\Resources\Patients\Pages\ListPatients;
+use App\Filament\Resources\Patients\Pages\ViewPatient;
+use App\Filament\Resources\Patients\RelationManagers\AppointmentsRelationManager;
+use App\Filament\Resources\Patients\RelationManagers\PaymentsRelationManager;
+use App\Filament\Resources\Patients\RelationManagers\TreatmentsRelationManager;
 use App\Filament\Resources\Patients\Schemas\PatientForm;
+use App\Filament\Resources\Patients\Schemas\PatientInfolist;
 use App\Filament\Resources\Patients\Tables\PatientsTable;
 use App\Models\Patient;
 use BackedEnum;
@@ -13,9 +18,6 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use App\Filament\Resources\Patients\Schemas\PatientInfolist;
-
-
 
 class PatientResource extends Resource
 {
@@ -50,7 +52,7 @@ class PatientResource extends Resource
         return PatientsTable::configure($table);
     }
 
-public static function infolist(Schema $schema): Schema
+    public static function infolist(Schema $schema): Schema
     {
         return PatientInfolist::configure($schema);
     }
@@ -58,8 +60,9 @@ public static function infolist(Schema $schema): Schema
     public static function getRelations(): array
     {
         return [
-            RelationManagers\TreatmentsRelationManager::class,
-            RelationManagers\PaymentsRelationManager::class,
+            TreatmentsRelationManager::class,
+            PaymentsRelationManager::class,
+            AppointmentsRelationManager::class,
         ];
     }
 
@@ -68,7 +71,7 @@ public static function infolist(Schema $schema): Schema
         return [
             'index' => ListPatients::route('/'),
             'create' => CreatePatient::route('/create'),
-            'view' => Pages\ViewPatient::route('/{record}'),
+            'view' => ViewPatient::route('/{record}'),
             'edit' => EditPatient::route('/{record}/edit'),
         ];
     }

@@ -37,6 +37,11 @@ class Patient extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function getBalanceAttribute(): float
     {
         $totalCost = $this->treatments->sum('cost');
