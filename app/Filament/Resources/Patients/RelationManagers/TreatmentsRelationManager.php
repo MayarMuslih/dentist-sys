@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Patients\RelationManagers;
 
+use App\Models\Service;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -9,15 +11,14 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use App\Models\Service;
-use Filament\Forms\Set;
-
+use Livewire\Component;
 
 class TreatmentsRelationManager extends RelationManager
 {
@@ -58,7 +59,20 @@ class TreatmentsRelationManager extends RelationManager
                     }),
 
                 TextInput::make('tooth_number')
-                    ->label(__('Tooth Number')),
+                    ->label(__('Tooth Number'))
+                    ->suffixAction(
+                        Action::make('chooseTooth')
+                            ->icon('heroicon-m-cursor-arrow-rays')
+                            ->label(__('Select Tooth'))
+                            ->modalHeading(__('Select Tooth'))
+                            ->modalContent(fn () => view('filament.components.tooth-picker-grid', [
+                                'teeth' => $this->getOwnerRecord()->teeth->keyBy('tooth_number'),
+                            ]))
+                            ->modalSubmitAction(false)
+                            ->action(function (array $arguments, Set $set): void {
+                                $set('tooth_number', $arguments['selectedNumber']);
+                            }),
+                    ),
 
                 Textarea::make('medical_notes')
                     ->label(__('Medical Notes'))
@@ -116,18 +130,18 @@ class TreatmentsRelationManager extends RelationManager
             ])
             ->headerActions([
                 CreateAction::make()
-                   ->after(fn (\Livewire\Component $livewire) => $livewire->dispatch('refresh-patient')),
+                    ->after(fn (Component $livewire) => $livewire->dispatch('refresh-patient')),
             ])
             ->recordActions([
                 EditAction::make()
-                    ->after(fn (\Livewire\Component $livewire) => $livewire->dispatch('refresh-patient')),
+                    ->after(fn (Component $livewire) => $livewire->dispatch('refresh-patient')),
                 DeleteAction::make()
-                    ->after(fn (\Livewire\Component $livewire) => $livewire->dispatch('refresh-patient')),
+                    ->after(fn (Component $livewire) => $livewire->dispatch('refresh-patient')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->after(fn (\Livewire\Component $livewire) => $livewire->dispatch('refresh-patient')),
+                        ->after(fn (Component $livewire) => $livewire->dispatch('refresh-patient')),
                 ]),
             ]);
     }

@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\Treatments\Schemas;
 
+use App\Models\Patient;
 use App\Models\Service;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class TreatmentForm
@@ -19,12 +23,14 @@ class TreatmentForm
                     ->relationship('patient', 'name')
                     ->required()
                     ->searchable()
+                    ->preload()
                     ->label(__('Patient Name')),
 
                 Select::make('service_id')
                     ->relationship('service', 'name')
                     ->required()
                     ->searchable()
+                    ->preload()
                     ->label(__('Provided Service'))
                     ->live()
                     ->afterStateUpdated(function ($state, callable $set) {
@@ -39,7 +45,20 @@ class TreatmentForm
                 // رقم السن
                 TextInput::make('tooth_number')
                     ->maxLength(255)
-                    ->label(__('Tooth Number (Optional)')),
+                    ->label(__('Tooth Number (Optional)'))
+                    ->suffixAction(
+                        Action::make('chooseTooth')
+                            ->icon('heroicon-m-cursor-arrow-rays')
+                            ->label(__('Select Tooth'))
+                            ->modalHeading(__('Select Tooth'))
+                            ->modalContent(fn (Get $get) => view('filament.components.tooth-picker-grid', [
+                                'teeth' => Patient::find($get('patient_id'))?->teeth->keyBy('tooth_number') ?? collect(),
+                            ]))
+                            ->modalSubmitAction(false)
+                            ->action(function (array $arguments, Set $set): void {
+                                $set('tooth_number', $arguments['selectedNumber']);
+                            }),
+                    ),
 
                 // تاريخ الجلسة
                 DatePicker::make('treatment_date')

@@ -13,6 +13,7 @@ class Patient extends Model
 
     protected $fillable = [
         'user_id',
+        'clinic_id',
         'name',
         'phone',
         'age',
@@ -40,6 +41,11 @@ class Patient extends Model
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function teeth(): HasMany
+    {
+        return $this->hasMany(PatientTooth::class);
     }
 
     public function getBalanceAttribute(): float

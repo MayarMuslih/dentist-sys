@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Patients\Schemas;
 
-use Filament\Schemas\Schema;
+use App\Livewire\PatientDentalChart;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Livewire;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 
 class PatientInfolist
 {
@@ -57,6 +59,15 @@ class PatientInfolist
                             ->badge()
                             ->color(fn (float $state): string => $state > 0 ? 'danger' : 'success'),
                     ])->columns(3),
+
+                Section::make(__('Dental Chart'))
+                    ->schema([
+                        Livewire::make(
+                            PatientDentalChart::class,
+                            fn ($record): array => ['patient' => $record],
+                        ),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }
