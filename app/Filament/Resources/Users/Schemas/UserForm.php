@@ -13,12 +13,24 @@ class UserForm
     {
         return $schema
             ->components([
+                Select::make('role')
+                    ->label(__('Role'))
+                    ->options(fn (string $operation): array => $operation === 'create'
+                        ? ['doctor' => __('Doctor')]
+                        : [
+                            'doctor' => __('Doctor'),
+                            'super_admin' => __('Super Admin'),
+                        ])
+                    ->default('doctor')
+                    ->required(),
+
                 Select::make('clinic_id')
                     ->label(__('Clinic'))
                     ->relationship('clinic', 'name')
                     ->searchable()
                     ->preload()
-                    ->nullable(), // مهم جداً عشان تقدر تنشئ حسابات مدراء تانيين بدون عيادة
+                    ->required(fn (string $operation, $get): bool => $operation === 'create' && $get('role') === 'doctor')
+                    ->nullable(),
 
                 TextInput::make('name')
                     ->label(__('Name'))
@@ -33,9 +45,9 @@ class UserForm
                 TextInput::make('password')
                     ->label(__('Password'))
                     ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state)) // تشفير الباسورد
-                    ->dehydrated(fn ($state) => filled($state)) // لا تحفظ الحقل إذا كان فاضي (عند التعديل)
-                    ->required(fn (string $operation): bool => $operation === 'create'), // مطلوب فقط عند الإنشاء
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $operation): bool => $operation === 'create'),
             ]);
     }
 }

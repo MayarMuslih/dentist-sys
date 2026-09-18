@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Dr. Lina Haddad',
                 'clinic_id' => $clinic->id,
+                'role' => 'doctor',
                 'password' => 'password123',
             ],
         );
@@ -26,7 +27,18 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Demo Clinic Admin',
                 'clinic_id' => $clinic->id,
+                'role' => 'doctor',
                 'password' => 'password123',
+            ],
+        );
+
+        User::updateOrCreate(
+            ['email' => 'admin@dentalflow.com'],
+            [
+                'name' => 'DentalFlow Super Admin',
+                'clinic_id' => null,
+                'role' => 'super_admin',
+                'password' => 'password',
             ],
         );
     }

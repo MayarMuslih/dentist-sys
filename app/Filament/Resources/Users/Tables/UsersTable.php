@@ -14,6 +14,12 @@ class UsersTable
     {
         return $table
             ->columns([
+                TextColumn::make('role')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'super_admin' => __('Super Admin'),
+                        default => __('Doctor'),
+                    }),
                 TextColumn::make('clinic.name')
                     ->searchable(),
                 TextColumn::make('name')
