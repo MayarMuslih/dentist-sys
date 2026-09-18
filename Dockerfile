@@ -34,7 +34,8 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 EXPOSE 8080
 
 # Start command
-CMD php artisan config:cache && \
+CMD php artisan storage:link && \
+    php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
     php artisan migrate --force && \
