@@ -7,11 +7,13 @@ RUN apk add --no-cache \
     npm \
     postgresql-dev \
     libzip-dev \
+    icu-dev \
     zip \
     unzip \
     curl \
     git \
-    && docker-php-ext-install pdo pdo_pgsql zip bcmath
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install pdo pdo_pgsql zip bcmath intl
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
